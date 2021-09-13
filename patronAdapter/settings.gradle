@@ -2,3 +2,4 @@ rootProject.name = "patronAdapter"
 include ':app'
 include ':application'
 include ':domain'
+include ':infrastucture:dataaccess'
