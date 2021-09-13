@@ -1,0 +1,2 @@
+# patronAdapter
+ Capacitacion Patron Adapter
