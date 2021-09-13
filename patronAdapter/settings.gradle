@@ -1,2 +1,4 @@
 rootProject.name = "patronAdapter"
 include ':app'
+include ':application'
+include ':domain'
