@@ -10,16 +10,10 @@ data class EventEntity(
     val enventId:Int?,
     @ColumnInfo(name = "eventName")
     val eventName:String = "",
-    @ColumnInfo(name = "eventDate")
-    val eventDate:String = "",
-    @ColumnInfo(name = "startHour")
-    val startHour:String = "",
-    @ColumnInfo(name = "endHour")
-    val endHour:String = "",
-    @ColumnInfo(name = "latitude")
-    val latitude:Double,
-    @ColumnInfo(name = "longitude")
-    val longitude:Double,
+    @ColumnInfo(name = "startDate")
+    val startDate:String = "",
+    @ColumnInfo(name = "endDate")
+    val endDate:String = "",
     @ColumnInfo(name = "placeName")
     val placeName:String = ""
 )

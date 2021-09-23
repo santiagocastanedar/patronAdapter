@@ -6,24 +6,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import co.com.ceiba.patternadapter.AppDataBase
 import co.com.ceiba.patternadapter.R
 import co.com.ceiba.patternadapter.data.DataSource
-import co.com.ceiba.patternadapter.data.model.Event
-import co.com.ceiba.patternadapter.data.model.Ubication
-import co.com.ceiba.patternadapter.domain.EventRepositoryImpl
+import co.com.ceiba.patternadapter.domain.Event
+import co.com.ceiba.patternadapter.data.EventRepositoryImpl
+import co.com.ceiba.patternadapter.ui.adapter.EventAdapter
 import co.com.ceiba.patternadapter.ui.viewmodel.HomeViewModel
 import co.com.ceiba.patternadapter.ui.viewmodel.VMFactory
 import co.com.ceiba.patternadapter.vo.Resource
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
 
-    private val viewModel by activityViewModels<HomeViewModel> {VMFactory(EventRepositoryImpl(
+    private val viewModel by activityViewModels<HomeViewModel> {VMFactory(
+        EventRepositoryImpl(
         DataSource(appDataBase = AppDataBase.getDatabase(requireActivity().applicationContext))
-    ))  }
+        )
+    )  }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +46,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //viewModel.insertEvent(Event("2022","10","11", Ubication(1.2,1.4,"casa"),"reunion"))
+        setupRecyclerView()
         getEvents()
     }
 
@@ -56,16 +61,23 @@ class HomeFragment : Fragment() {
                 is Resource.Success ->{
                     var eventList:List<Event> = result.data.map { eventEntity ->
                         Event(
-                            eventEntity.eventDate,
-                            eventEntity.startHour,
-                            eventEntity.endHour,
-                            Ubication(eventEntity.latitude,eventEntity.longitude,eventEntity.placeName),
+                            eventEntity.startDate,
+                            eventEntity.endDate,
+                            eventEntity.placeName,
                             eventEntity.eventName
                         )
                     }
-                    Log.d("DATA1","${eventList}")
+                    recyclerViewEvents.adapter = EventAdapter(requireContext(),eventList,this)
                 }
             }
         })
+    }
+
+    private fun setupRecyclerView(){
+        recyclerViewEvents.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun onClick(event: Event) {
+        TODO("Not yet implemented")
     }
 }

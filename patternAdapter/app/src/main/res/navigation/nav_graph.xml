@@ -8,6 +8,15 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="co.com.ceiba.patternadapter.ui.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="Mis Eventos"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_createEventFragment"
+            app:destination="@id/createEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createEventFragment"
+        android:name="co.com.ceiba.patternadapter.ui.fragments.CreateEventFragment"
+        android:label="@string/create_event"
+        tools:layout="@layout/fragment_create_event" />
 </navigation>

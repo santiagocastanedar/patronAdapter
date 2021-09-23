@@ -1,7 +1,7 @@
 package co.com.ceiba.patternadapter.data
 
 import co.com.ceiba.patternadapter.AppDataBase
-import co.com.ceiba.patternadapter.data.model.Event
+import co.com.ceiba.patternadapter.domain.Event
 import co.com.ceiba.patternadapter.data.model.EventEntity
 import co.com.ceiba.patternadapter.vo.Resource
 
@@ -12,12 +12,9 @@ class DataSource(private val appDataBase: AppDataBase) {
             EventEntity(
                 null,
                 eventName = event.eventName,
-                eventDate = event.date,
-                startHour = event.startHour,
-                endHour = event.endHour,
-                latitude = event.ubication.latitude,
-                longitude = event.ubication.longitude,
-                placeName = event.ubication.placeName
+                startDate = event.startDate,
+                endDate = event.endDate,
+                placeName = event.placeName
             )
         )
     }

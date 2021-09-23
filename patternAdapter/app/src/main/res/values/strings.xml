@@ -2,4 +2,14 @@
     <string name="app_name">patternAdapter</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_event">Crear evento</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit_event">Editar</string>
+    <string name="event_name">Nombre del evento</string>
+    <string name="place">Lugar</string>
+    <string name="save_evente">Guardar</string>
+    <string name="current_date">Fecha actual</string>
+    <string name="start">Inicio</string>
+    <string name="end">Fin</string>
+    <string name="hour">Hora</string>
 </resources>
