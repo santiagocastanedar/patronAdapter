@@ -10,7 +10,7 @@ class DataSource(private val appDataBase: AppDataBase) {
     suspend fun insertEvent(event: Event){
         appDataBase.eventDao().insertEvent(
             EventEntity(
-                null,
+                enventId = event.id,
                 eventName = event.eventName,
                 startDate = event.startDate,
                 endDate = event.endDate,
@@ -21,5 +21,29 @@ class DataSource(private val appDataBase: AppDataBase) {
 
     suspend fun getEvents():Resource<List<EventEntity>>{
         return Resource.Success(appDataBase.eventDao().getEvents())
+    }
+
+    suspend fun deleteEvent(event: Event){
+        appDataBase.eventDao().deleteEvent(
+            EventEntity(
+                event.id,
+                eventName = event.eventName,
+                startDate = event.startDate,
+                endDate = event.endDate,
+                placeName = event.placeName
+            )
+        )
+    }
+
+    suspend fun editEvent(event: Event){
+        appDataBase.eventDao().updateEvent(
+            EventEntity(
+                event.id,
+                eventName = event.eventName,
+                startDate = event.startDate,
+                endDate = event.endDate,
+                placeName = event.placeName
+            )
+        )
     }
 }

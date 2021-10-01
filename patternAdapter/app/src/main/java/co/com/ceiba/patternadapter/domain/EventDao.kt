@@ -1,9 +1,6 @@
 package co.com.ceiba.patternadapter.domain
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import co.com.ceiba.patternadapter.data.model.EventEntity
 
 @Dao
@@ -13,4 +10,10 @@ interface EventDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(eventEntity: EventEntity)
+
+    @Delete(entity = EventEntity::class)
+    suspend fun deleteEvent(eventEntity: EventEntity)
+
+    @Update(entity = EventEntity::class)
+    suspend fun updateEvent(eventEntity: EventEntity)
 }

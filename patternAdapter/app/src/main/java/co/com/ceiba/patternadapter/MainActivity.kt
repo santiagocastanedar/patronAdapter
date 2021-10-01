@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import co.com.ceiba.patternadapter.domain.Event
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +34,10 @@ class MainActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.create_event -> {
-                navController.navigate(R.id.createEventFragment)
+                val bundle = Bundle()
+                val event: Event? = null
+                bundle.putParcelable("event",event)
+                navController.navigate(R.id.createEventFragment,bundle)
                 true
             }
 

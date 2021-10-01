@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class EventEntity(
-    @PrimaryKey(autoGenerate = true)
-    val enventId:Int?,
+    @PrimaryKey
+    val enventId: Long?,
     @ColumnInfo(name = "eventName")
     val eventName:String = "",
     @ColumnInfo(name = "startDate")

@@ -1,20 +1,23 @@
 package co.com.ceiba.patternadapter.ui.fragments
 
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.com.ceiba.patternadapter.AppDataBase
 import co.com.ceiba.patternadapter.R
 import co.com.ceiba.patternadapter.data.DataSource
-import co.com.ceiba.patternadapter.domain.Event
 import co.com.ceiba.patternadapter.data.EventRepositoryImpl
+import co.com.ceiba.patternadapter.domain.Event
 import co.com.ceiba.patternadapter.ui.adapter.EventAdapter
 import co.com.ceiba.patternadapter.ui.viewmodel.HomeViewModel
 import co.com.ceiba.patternadapter.ui.viewmodel.VMFactory
@@ -27,7 +30,7 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
     private val viewModel by activityViewModels<HomeViewModel> {VMFactory(
         EventRepositoryImpl(
         DataSource(appDataBase = AppDataBase.getDatabase(requireActivity().applicationContext))
-        )
+        ,requireActivity().applicationContext)
     )  }
 
 
@@ -48,8 +51,17 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         getEvents()
+        checkPermission(42,android.Manifest.permission.READ_CALENDAR,android.Manifest.permission.WRITE_CALENDAR)
     }
 
+    private fun checkPermission(callbackId: Int, vararg permissionsId: String) {
+        var permissions = true
+        for (p in permissionsId) {
+            permissions =
+                permissions && ContextCompat.checkSelfPermission(requireContext(), p) == PERMISSION_GRANTED
+        }
+        if (!permissions) ActivityCompat.requestPermissions(requireActivity(), permissionsId, callbackId)
+    }
     private fun getEvents(){
         viewModel.getEvents().observe(viewLifecycleOwner, Observer { result ->
             when(result){
@@ -61,6 +73,7 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
                 is Resource.Success ->{
                     var eventList:List<Event> = result.data.map { eventEntity ->
                         Event(
+                            eventEntity.enventId,
                             eventEntity.startDate,
                             eventEntity.endDate,
                             eventEntity.placeName,
@@ -78,6 +91,8 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
     }
 
     override fun onClick(event: Event) {
-        TODO("Not yet implemented")
+        val bundle = Bundle()
+        bundle.putParcelable("event",event)
+        findNavController().navigate(R.id.eventInformationFragment,bundle)
     }
 }

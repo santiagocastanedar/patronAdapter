@@ -2,8 +2,10 @@ package co.com.ceiba.patternadapter.ui.fragments
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.opengl.Visibility
+import android.content.ContentValues
+import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,16 +18,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import co.com.ceiba.patternadapter.AppDataBase
 import co.com.ceiba.patternadapter.R
+import co.com.ceiba.patternadapter.calendar.adapter.CalendarEventAdapter
+import co.com.ceiba.patternadapter.calendar.model.CalendarEvent
 import co.com.ceiba.patternadapter.data.DataSource
 import co.com.ceiba.patternadapter.data.EventRepositoryImpl
 import co.com.ceiba.patternadapter.domain.Event
 import co.com.ceiba.patternadapter.ui.viewmodel.CreateViewModel
-import co.com.ceiba.patternadapter.ui.viewmodel.HomeViewModel
 import co.com.ceiba.patternadapter.ui.viewmodel.VMFactory
 import kotlinx.android.synthetic.main.fragment_create_event.*
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
 class CreateEventFragment : Fragment() {
@@ -35,12 +37,11 @@ class CreateEventFragment : Fragment() {
         VMFactory(
         EventRepositoryImpl(
             DataSource(appDataBase = AppDataBase.getDatabase(requireActivity().applicationContext))
-        )
+        ,requireActivity().applicationContext)
     )  }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -53,10 +54,19 @@ class CreateEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpInfo()
         setupTextView()
         buttonSave.setOnClickListener {
             insertEvent()
         }
+    }
+
+    private fun setUpInfo(){
+        textViewStartDate.text = SimpleDateFormat("dd-M-yyyy").format(System.currentTimeMillis())
+        textViewStartHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
+        textViewEndHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
+        textViewEndDate.visibility = View.GONE
+        textViewEndHour.visibility = View.GONE
     }
 
     private fun insertEvent(){
@@ -67,20 +77,15 @@ class CreateEventFragment : Fragment() {
         if (eventName.equals("")){
             Toast.makeText(requireContext(),"El nombre del evento es obligatorio",Toast.LENGTH_LONG).show()
         }else{
-            val event: Event = Event(startDate,endDate,eventPlace,eventName)
-            viewModel.insertEvent(event)
+            viewModel.insertEvent(Event(null,startDate,endDate,eventPlace,eventName))
             Toast.makeText(requireContext(),"Evento creado con exito",Toast.LENGTH_LONG).show()
-
+            editTextEventName.setText("")
+            editTextPlaceName.setText("")
         }
-
     }
 
     private fun setupTextView(){
-        textViewStartDate.text = SimpleDateFormat("dd-M-yyyy").format(System.currentTimeMillis())
-        textViewStartHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
-        textViewEndHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
-        textViewEndDate.visibility = View.GONE
-        textViewEndHour.visibility = View.GONE
+
         textViewStartDate.setOnClickListener {
             showDatePickerDialog(textViewStartDate)
             textViewEndDate.visibility = View.VISIBLE

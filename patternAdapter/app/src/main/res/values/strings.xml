@@ -12,4 +12,6 @@
     <string name="start">Inicio</string>
     <string name="end">Fin</string>
     <string name="hour">Hora</string>
+    <string name="edit">Editar</string>
+    <string name="update">Actualizar</string>
 </resources>
