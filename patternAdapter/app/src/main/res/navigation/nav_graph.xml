@@ -13,18 +13,10 @@
         <action
             android:id="@+id/action_homeFragment_to_createEventFragment"
             app:destination="@id/createEventFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_eventInformationFragment"
-            app:destination="@id/eventInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
         android:name="co.com.ceiba.patternadapter.ui.fragments.CreateEventFragment"
         android:label="@string/create_event"
         tools:layout="@layout/fragment_create_event" />
-    <fragment
-        android:id="@+id/eventInformationFragment"
-        android:name="co.com.ceiba.patternadapter.ui.fragments.EventInformationFragment"
-        android:label="Evento"
-        tools:layout="@layout/fragment_event_information" />
 </navigation>

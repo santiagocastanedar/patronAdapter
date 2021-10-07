@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -66,11 +67,14 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
         viewModel.getEvents().observe(viewLifecycleOwner, Observer { result ->
             when(result){
                 is Resource.Loading -> {
+                    progressBarMain.visibility = View.VISIBLE
                 }
                 is Resource.Failure -> {
-                    Log.d("DATA1","Error")
+                    progressBarMain.visibility = View.GONE
+                    Toast.makeText(requireContext(),"Ocurrion un error ${result.exception}", Toast.LENGTH_LONG).show()
                 }
                 is Resource.Success ->{
+                    progressBarMain.visibility = View.GONE
                     var eventList:List<Event> = result.data.map { eventEntity ->
                         Event(
                             eventEntity.enventId,
@@ -79,6 +83,11 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
                             eventEntity.placeName,
                             eventEntity.eventName
                         )
+                    }
+                    if(eventList.isEmpty()){
+                        textViewEmpty.visibility = View.VISIBLE
+                    }else{
+                        textViewEmpty.visibility = View.GONE
                     }
                     recyclerViewEvents.adapter = EventAdapter(requireContext(),eventList,this)
                 }
@@ -91,8 +100,8 @@ class HomeFragment : Fragment(),EventAdapter.OnEventClickListener {
     }
 
     override fun onClick(event: Event) {
-        val bundle = Bundle()
-        bundle.putParcelable("event",event)
-        findNavController().navigate(R.id.eventInformationFragment,bundle)
+        viewModel.deleteEvent(event)
+        Toast.makeText(requireContext(),"Evento eliminado con exito", Toast.LENGTH_LONG).show()
+        getEvents()
     }
 }

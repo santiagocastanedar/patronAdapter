@@ -33,22 +33,6 @@ class EventRepositoryImpl(private val dataSource: DataSource,private val context
         return dataSource.insertEvent(event)
     }
 
-    override suspend fun editEvent(event: Event) {
-        val calendarEvent: CalendarEvent = CalendarEventAdapter(event).eventToCalendarEventAdapter()
-        val eventID: Long? = event.id
-        val values = ContentValues().apply {
-            put(CalendarContract.Events.DTSTART,calendarEvent.startMillis)
-            put(CalendarContract.Events.DTEND,calendarEvent.endMillis)
-            put(CalendarContract.Events.TITLE,calendarEvent.title)
-            put(CalendarContract.Events.DESCRIPTION,calendarEvent.description)
-        }
-        val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,
-            eventID!!
-        )
-        val rows: Int = context.contentResolver.update(updateUri, values, null, null)
-        dataSource.editEvent(event)
-    }
-
     override suspend fun deleteEvent(event: Event) {
         val eventID: Long? = event.id
         val deleteUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,

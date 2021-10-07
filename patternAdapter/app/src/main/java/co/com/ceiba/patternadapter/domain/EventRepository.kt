@@ -5,7 +5,6 @@ import co.com.ceiba.patternadapter.vo.Resource
 
 interface EventRepository {
     suspend fun createEvent(event: Event)
-    suspend fun editEvent(event: Event)
     suspend fun deleteEvent(event: Event)
     suspend fun getEvents(): Resource<List<EventEntity>>
 }

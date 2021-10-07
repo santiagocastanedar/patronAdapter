@@ -77,7 +77,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="50"
                 android:layout_height="wrap_content"
-                android:text="@string/current_date"
                 android:layout_marginLeft="20dp"
                 android:textSize="20sp" />
             <TextView
@@ -85,7 +84,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="30"
                 android:layout_height="wrap_content"
-                android:text="@string/hour"
                 android:layout_marginLeft="20dp"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -97,14 +95,6 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/save_evente"
             android:layout_marginTop="40dp"/>
-        <Button
-            android:id="@+id/buttonUpdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/update"
-            android:layout_marginTop="40dp"
-            android:visibility="gone"/>
     </LinearLayout>
 
 

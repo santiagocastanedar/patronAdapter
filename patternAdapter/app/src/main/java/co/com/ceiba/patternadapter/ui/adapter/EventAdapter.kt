@@ -37,7 +37,7 @@ class EventAdapter(private val context: Context,
             itemView.startEvent.text = item.startDate
             itemView.endEvent.text = item.endDate
             itemView.eventPlace.text = item.placeName
-            itemView.setOnClickListener{itemClickListener.onClick(item)}
+            itemView.buttonDelete.setOnClickListener{itemClickListener.onClick(item)}
         }
 
     }

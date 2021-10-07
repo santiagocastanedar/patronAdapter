@@ -20,4 +20,10 @@ class HomeViewModel(private val repo:EventRepository):ViewModel() {
             emit(Resource.Failure(e))
         }
     }
+
+    fun deleteEvent(event: Event){
+        viewModelScope.launch {
+            repo.deleteEvent(event)
+        }
+    }
 }

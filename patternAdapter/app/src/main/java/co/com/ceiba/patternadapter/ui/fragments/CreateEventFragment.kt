@@ -64,7 +64,6 @@ class CreateEventFragment : Fragment() {
     private fun setUpInfo(){
         textViewStartDate.text = SimpleDateFormat("dd-M-yyyy").format(System.currentTimeMillis())
         textViewStartHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
-        textViewEndHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
         textViewEndDate.visibility = View.GONE
         textViewEndHour.visibility = View.GONE
     }
@@ -74,8 +73,8 @@ class CreateEventFragment : Fragment() {
         val eventPlace = editTextPlaceName.text.toString()
         val startDate = "${textViewStartDate.text} ${textViewStartHour.text}"
         val endDate = "${textViewEndDate.text} ${textViewEndHour.text}"
-        if (eventName.equals("")){
-            Toast.makeText(requireContext(),"El nombre del evento es obligatorio",Toast.LENGTH_LONG).show()
+        if (eventName.equals("") || " ".equals(endDate)){
+            Toast.makeText(requireContext(),"El nombre del evento y la fecha son obligatorios",Toast.LENGTH_LONG).show()
         }else{
             viewModel.insertEvent(Event(null,startDate,endDate,eventPlace,eventName))
             Toast.makeText(requireContext(),"Evento creado con exito",Toast.LENGTH_LONG).show()
@@ -90,6 +89,7 @@ class CreateEventFragment : Fragment() {
             showDatePickerDialog(textViewStartDate)
             textViewEndDate.visibility = View.VISIBLE
             textViewEndHour.visibility = View.VISIBLE
+            textViewEndHour.text = SimpleDateFormat("HH:mm").format(System.currentTimeMillis())
         }
         textViewEndDate.setOnClickListener {
             showDatePickerDialog(textViewEndDate)
@@ -134,8 +134,6 @@ class CreateEventFragment : Fragment() {
         dpd.show()
     }
 
-
-
     private fun showTimePickerDialog(textView: TextView){
 
         val timeSetListener = TimePickerDialog.OnTimeSetListener{timePicker,hour,minute ->
@@ -145,7 +143,4 @@ class CreateEventFragment : Fragment() {
         }
         TimePickerDialog(requireActivity(),timeSetListener,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true).show()
     }
-
-
-
 }

@@ -13,7 +13,4 @@ interface EventDao {
 
     @Delete(entity = EventEntity::class)
     suspend fun deleteEvent(eventEntity: EventEntity)
-
-    @Update(entity = EventEntity::class)
-    suspend fun updateEvent(eventEntity: EventEntity)
 }
